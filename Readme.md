@@ -1,11 +1,5 @@
 # MTK Genio 720 EVK 開發筆記
 
-### Outline
-
-[1. Yocto Project 安裝]()
-[2. Genio Yocto 開發]()
-[3. genio flash tool 安裝]()
-
 </br>
 
 # Yocto Project 安裝
@@ -14,4 +8,6 @@
 
 </br>
 
+
+可以先根據官方與論壇所提供的方式安裝，基本上 MTK 有提供 repo 倉庫所以直接 'sync' 就可以了。
 
