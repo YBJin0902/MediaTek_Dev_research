@@ -257,6 +257,8 @@ bitbake #後續更新
 3. 按一下 Reset 按鈕
 4. 看到 log 出現 `Erasing 'mmc0'` 就可以鬆開 Download
 
+每次重新 flash 的時候最好退出資料夾在重新進去一次
+
 </br>
 
 </br>
