@@ -268,3 +268,5 @@ bitbake #後續更新
 ### [Making your OWN meta-layer](layer/Readme.md)
 
 ### [USB 開發相關](USB/Readme.md) 
+
+### [NPU](NPU/Readme.md)
