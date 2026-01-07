@@ -1,6 +1,8 @@
 # MTK Genio 720 EVK 開發筆記
 
-這邊的開發與講解都已 Ubuntu 22.04 為主。
+這邊的開發與講解都以 Ubuntu 22.04 為主。
+
+若是只有 windows 的話 請自行架設 docker 環境。
 
 </br>
 
