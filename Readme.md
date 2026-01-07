@@ -24,6 +24,8 @@ Genio 720 與 520 基本共用同一個 BSP。Yocto 開發版本基本為 Yocto 
 
 MTK 基本把所有開發需要的 SDK 都放在 [GitLab](https://gitlab.com/mediatek/aiot)，那 Yocto 所需要的 branch 為 scarthgap，在 clone 或是找資料時都需要注意。
 
+[參考](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/sw/yocto/get-started/build-code.html)
+
 </br>
 
 ## 安裝步驟
@@ -226,8 +228,39 @@ bitbake #後續更新
 
 </br>
 
+## 燒錄
+
+### 安裝 genio-flash tool
+
+[參考](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/tools/genio-tools.html#setup-tool-environment-linux)
+
+安裝上容易遇到一些權限或是版本問題，直接問 GPT 他很棒！！
+
+</br>
+
+### 上板
+
+[參考](https://mediatek.gitlab.io/aiot/doc/aiot-dev-guide/master/sw/yocto/get-started/flash.html)
+
+先根據編譯的 image 對象決定跳排，如圖：
+
+![Boot Initiation](images/board-Boot-Initiation.png)
+
+</br>
+
+燒錄步驟：
+
+1. 接上 USB3.2 P0 Download Port
+2. 持續按下 Download 按鈕
+3. 按一下 Reset 按鈕
+4. 看到 log 出現 `Erasing 'mmc0'` 就可以鬆開 Download
+
+</br>
+
 </br>
 
 # MTK Genio 720 EVK 開發
 
-## [USB 開發相關](USB/Readme.md) 
+### [Making your OWN meta-layer](layer/Readme.md)
+
+### [USB 開發相關](USB/Readme.md) 
