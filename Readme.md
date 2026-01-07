@@ -1,6 +1,6 @@
 # MTK Genio 720 EVK 開發筆記
 
-這邊的開發與講解都已 Ubuntu 20.04 為主。
+這邊的開發與講解都已 Ubuntu 22.04 為主。
 
 </br>
 
@@ -27,6 +27,8 @@ MTK 基本把所有開發需要的 SDK 都放在 [GitLab](https://gitlab.com/med
 </br>
 
 ## 安裝步驟
+
+</br>
 
 ### Step 1. 安裝 repo 
 
@@ -105,7 +107,7 @@ mkdir iot-yocto; cd iot-yocto
 fetch SDK
 
 ```bash
-repo init -u https://gitlab.com/mediatek/aiot/bsp/manifest.git -b rity/scarthgap
+repo init -u https://gitlab.com/mediatek/aiot/bsp/manifest.git -b refs/tags/rity-scarthgap-v25.1
 
 repo sync
 ```
@@ -121,6 +123,8 @@ repo sync
 這裡需要對 Yocto Bitbake 的時候，需要的 downloads 與 sstate-cache 做設定。
 
 ```bash
+mkdir iot-yocto; cd iot-yocto #創自己要的 workspace folder name 就好
+
 export PROJ_ROOT=`pwd`
 ```
 
@@ -142,28 +146,21 @@ export BUILD_DIR=`pwd`
 
 接下來要對 `build\conf\local.conf` 輸入一些設定：
 
+注意不會直接輸入在 local.conf 中，會有一個額外的 site.conf
+
 ```bash
-echo 'NDA_BUILD = "0"' >> $BUILD_DIR/conf/local.conf
+echo 'NDA_BUILD = "0"' >> $BUILD_DIR/conf/site.conf
+# 我們沒有 NDA access 所要用 0 先將 NDA 這邊設定為 0，NDA 是需要向 MTK 額外申請的。
 ```
 
 ```bash
-echo 'DL_DIR = "${TOPDIR}/../downloads"' >> $BUILD_DIR/conf/local.conf
+echo 'DL_DIR = "${TOPDIR}/../downloads"' >> $BUILD_DIR/conf/site.conf
 ```
 
 ```bash
-echo 'SSTATE_DIR = "${TOPDIR}/../sstate-cache"' >> BUILD_DIR/conf/local.conf
+echo 'SSTATE_DIR = "${TOPDIR}/../sstate-cache"' >> $BUILD_DIR/conf/site.conf
 ```
 
-先將 NDA 這邊設定為 0，NDA 是需要像 MTK 額外申請的。
-
-</br>
-
-額外設定，我們可以限制 Yocto 取用 CPU 資源，在 local.conf 加工
-
-```bash
-BB_NUMBER_THREADS = "6"
-# 這邊是指允許的執行續數量
-```
 
 ---
 
@@ -192,12 +189,45 @@ export MACHINE=genio-720-evk-norboot-ufs
 
 開始編譯：
 
+在編譯前，我們需要做兩項設定：
+
+1. 關掉 ptest
+    - 編輯 local.conf 
+    - 輸入 
+    ```conf
+    PTEST_ENABLED = "0"
+    DISTRO_FEATURES:remove = "ptest"
+    EXTRA_IMAGE_FEATURES:remove = "ptest-pkgs"
+    ```
+    - 因為我們不是測試與專業開發人員，所以不用這項功能，我們只是拿 SDK 做開發。
+
+2. 限制 Yocto 的執行資源
+    - 編輯 local.conf 
+    - 輸入 
+    ```conf
+    BB_NUMBER_THREADS = "4"
+    PARALLEL_MAKE = "-j 4"
+    ```
+    - 限制一下 Bitbake 在編一時的執行，否則電腦容易死掉。
+
 此為完整編譯。
 
 ```bash
 bitbake rity-demo-image
 ```
 
+自行製作的 image：
+
+```bash
+bitbake #後續更新
+```
+
 ---
 
 </br>
+
+</br>
+
+# MTK Genio 720 EVK 開發
+
+## [USB 開發相關](USB/Readme.md) 
