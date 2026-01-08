@@ -1,20 +1,20 @@
 # NPU
 
-在 MediaTek 中 Neuron Processing Unit (NPU) ，在 MediaTek 中有個 Neuron Studio Profiler 是一個效能分析工具，可協助開發人員分析和最佳化在 NPU 上運行的 AI 模型。
+在 MediaTek 中 NPU 的使用＆學習：[官網](https://neuropilot.mediatek.com/)
 
-開發上可以參考 Neuron SDK，上面會說可以使用的模型與推論方式。
+Main Board : MediaTek Genio 720 EVK
 
-</br>
+Notice : 無 NDA access 也可以使用，用的是 [NeuroPilot Public](https://neuropilot-developer.mediatek.com)
 
-[官網](https://neuropilot.mediatek.com/)
+---
 
-可以跟著 [Platforms](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/) 的部份實做與學習。
+### 簡介
+
+很多文獻跟參考資料大部都會稱 MTK 的 NPU 為 APU，但是在 Genio 720 開始後統稱 NPU 了，MTK 提供的開發工具為  [NeuroPilot](https://neuropilot-developer.mediatek.com/sphinx/neuropilot-8-public/html/l1_introduction/l2_sw_ecosystem/sw_ecosystem.html)，NeuroPilot 是一套開發者工具和API集合，幫助使用者在聯發科平台上有效開發 AI 應用，使用者可以極其有效地在邊緣設備上開發和部署 AI 應用。
 
 </br>
 
 ---
-
-</br>
 
 </br>
 
@@ -23,7 +23,7 @@
 ### NPU (Neural Processing Unit):
 
 - NPU 作為聯發科人工智慧硬體加速器的正式名稱。
-- NPU 指MDLA和MVPU兩個組成部分的總稱。
+- NPU 指 MDLA 和 MVPU 兩個組成部分的總稱。
 
 ### MDLA (MediaTek Deep Learning Accelerator):
 
@@ -45,31 +45,48 @@
 
 </br>
 
----
+</br>
+
+
+# G720
+
+[G720 Documentation](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/)
 
 </br>
 
-</br>
+### Supported Operations
+- [TFLite Operations](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/l1_supported_operations/l2_supported_operations/l3_supported_ops/supported_operations_public.html)
 
-# 筆記
+- [CPU Guidelines](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/l1_supported_operations/l2_supported_operations/l3_cpu_guide/cpu_64bit_fp16_guidelines.html)
 
-根據不同的 Genio Board ，MediaTek 提供不同的 SDK version。
+- [GPU Guidelines](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/l1_supported_operations/l2_supported_operations/l3_gpu_guide/gpu_guidelines.html)
 
-學習成本算高。
+- [MDLA 5.3 Guidelines](https://neuropilot-developer.mediatek.com/sphinx/g720-public/html/l1_supported_operations/l2_supported_operations/l3_mdla_guide/mdla_guidelines_5_3_public.html)
 
-</br>
+MTK 提供很多跑 Edge AI 的方法，可以針對自己的需求進行開發。
 
-[Genio 720 NeuroPilot](https://neuropilot-developer.mediatek.com/sphinx/neuropilot-8-public/html/)
-
-本文檔詳細介紹了聯發科的 NeuroPilot 軟體工具套件。本節首先概述了本文檔涵蓋的主題，然後介紹了 NeuroPilot 軟體的各種工具、術語和目標。
-
-This documentation is for the following NeuroPilot version and build: 8.0.7 public.
+每一項裡面都有詳系列出支援的 Data Type 與模型。
 
 </br>
 
-NeuroPilot 是一套開發者工具和 API 的集合，旨在幫助使用者在聯發科平台上開發高效的 AI 應用。 NeuroPilot 的設計目標是實現“邊緣 AI”，即 AI 處理在設備本地執行，而不是遠端伺服器。借助 NeuroPilot，使用者可以在邊緣設備上有效地開發和部署 AI 應用。這不僅能顯著提升各類 AI 應用的運作速度，還能確保資料隱私安全。
+# NeuroPilot
 
-NeuroPilot 的開發者工具支援 TensorFlow、PyTorch 和 TensorFlow Lite (TFLite) 等常用 AI 框架。 NeuroPilot 支援檢查、載入和轉換模型，既可轉換為 MediaTek 最佳化的模型格式，也可轉換為開放框架標準模型格式。
+這邊介紹與筆記 NeuroPilot 的使用與開發。
 
 </br>
+
+首先先確定 [NeuroPilot Versions](https://neuropilot-developer.mediatek.com/sphinx/neuropilot-8-public/html/l1_introduction/l2_np_versions/neuropilot_versions.html)，我們是做使用與應用重點不是完整開發這顆 NPU，所以不用 NDA 也足夠。
+
+</br>
+
+Public 的功能：
+
+| Feature | Type | Description |
+| :------ | :--- | :---------- |
+| 轉換工具 | 命令列工具 | 預先訓練和最佳化的 PyTorch 或 TensorFlow 模型轉換為 TensorFlow Lite 模型，並執行訓練後量化 | 
+| TFLite Shim API | API | TFLite Shim API 是一個便利 API，它封裝了 TensorFlow Lite 的原生 C++ API |
+
+</br>
+
+## NeuroPilot Tools
 
