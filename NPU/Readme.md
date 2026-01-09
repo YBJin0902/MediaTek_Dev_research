@@ -88,5 +88,141 @@ Public 的功能：
 
 </br>
 
-## NeuroPilot Tools
+## How to USE
+
+整個開發流程如下：
+
+```scss
+PC 上訓練模型
+(TensorFlow / PyTorch)
+        ↓
+NeuroPilot Converter
+(模型轉換 + 量化)
+        ↓
+NeuroPilot Runtime
+(NPU 執行)
+        ↓
+你的 App
+(GTK / C++ / Python / GStreamer)
+```
+
+</br>
+
+架構會像：
+
+```scss
+Yocto Linux
+│
+├─ NeuroPilot Runtime (userspace)
+│
+├─ Your App
+│   ├─ GTK / Qt / CLI
+│   ├─ Camera / USB / File
+│   └─ 呼叫 NeuroPilot API
+│
+└─ MediaTek NPU Driver (kernel)
+```
+
+</br>
+
+所以簡單來說在 G720 上使用 NPU 我們會將訓練好的模型量化過後 (或不用)，燒錄到板子上，接著透過官方提供的 API 去掉用模型進行推論。
+
+### NeuroPilot 的三大核心元件
+
+- NeuroPilot Converter
+    - 模型轉換工具
+    - 把你在 PC 訓練的模型轉成 NPU 可執行格式
+    - 支援來源
+        - TensorFlow
+        - TensorFlow Lite
+        - ONNX
+    - 可以做量化
+
+- NeuroPilot Runtime
+    - 在 Genio 720 上執行 `.neu` 模型
+
+- NeuroPilot SDK
+    - 整合開發用
+    - 提供 API、 Sample、 Library
+
+</br>
+
+## NeuroPilot Converter Tools
+
+作業系統需求：
+- 64-bit Linux.
+- Python 3.5 to Python 3.11
+- pip >= 8.1.0 (required by manylinux1)
+
+Python 需求：
+- argparse >= 1.2
+- flatbuffers >= 1.12.0
+- jsonschema
+- lxml
+- matplotlib >= 3.2
+- natsort
+- networkx
+- numpy >= 1.13.3
+- packaging
+- plotly
+- protobuf >= 3.5.1 and < 4.0
+- pybind11 >= 2.2
+- singleton-decorator
+- tqdm >= 4.0
+- xxhash
+
+</br>
+
+### Step 1. 安裝
+
+下載：https://neuropilot-developer.mediatek.com/sphinx/neuropilot-8-public/html/l1_downloads/downloads_public.html#neuropilot-downloads
+
+安裝 tools：
+
+```shell
+# For Python 3.5
+$ pip3 install mtk_converter-<version>+release-cp35-cp35m-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+
+# For Python 3.6
+$ pip3 install mtk_converter-<version>+release-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+
+# For Python 3.7
+$ pip3 install mtk_converter-<version>+release-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+
+# For Python 3.8
+$ pip3 install mtk_converter-<version>+release-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+
+# For Python 3.9
+$ pip3 install mtk_converter-<version>+release-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl
+
+# For Python 3.10
+$ pip3 install mtk_converter-<version>+release-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+
+# For Python 3.11
+$ pip3 install mtk_converter-<version>+release-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+```
+
+</br>
+
+驗證安裝
+
+```shell
+$ python3 -c 'import mtk_converter; print(mtk_converter.__version__)'
+```
+
+</br>
+
+環境變數
+
+```shell
+$ export PATH=~/.local/bin:$PATH
+```
+
+</br>
+
+---
+
+</br>
+
+### Step 2. 使用
 
