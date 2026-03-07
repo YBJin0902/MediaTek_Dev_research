@@ -226,3 +226,132 @@ $ export PATH=~/.local/bin:$PATH
 
 ### Step 2. 使用
 
+</br>
+
+---
+
+</br>
+
+</br>
+
+# meta-tensorflow
+
+若要在無 NDS 的情況下要使用 Genio 平台進行 AI 模型推論則會需要使用 Tensorflow-Lite 。
+
+</br>
+
+在 Genio Linux 平台的 Yocto 下對應的 recipes 則為 meta-tensorflow
+
+個人編譯用的 host PC 在編譯時會遇到 Github 429 Error 的問題，可以參考我的[解決方法](#solution)
+
+</br>
+
+### Solution
+
+會有缺失的 repo 為： `tensorflow` , `tensorflow-native` , `keras` , `keras-native`
+
+</br>
+
+Step 1. 下載 local-repo
+
+Github 429 不是指檔案找不到或是連結有問題，就只是由於要下載的檔案過多 Github 會擋。
+
+已將所需要的 [repo](//local-bazel-repos) 準備好，下載即可。
+
+</br>
+
+Step 2. 先 unpack 對應的 recipes
+
+推薦順序：
+1. tensorflow-native
+2. tensorflow
+3. keras
+4. keras-native
+
+語法：
+
+```sh
+bitbake -c unpack 'recipes-name'
+```
+
+</br>
+
+在 unpack 後可以在以下對應的位置找到 git 資料夾：
+
+- tensorflow-native : build/tmp/work/x86_64-linux/tensorflow-native/2.16.1/git
+
+- tensorflow : build/tmp/work/armv8a-poky-linux/tensorflow/2.16.1/git
+
+- keras : build/tmp/work/armv8a-poky-linux/keras/2.16.0/git
+
+- keras-native : build/tmp/work/armv8a-poky-linux/keras-native/2.16.0/git
+
+</br>
+
+Step 3. 編輯 bazelrc
+
+在 git 資料夾中都會有一個 bazelrc 的檔案，我們需要在裡面加上 `override` 去指定本定的資料夾。
+
+須注意這種補 git 的方式在下次 `bitbake clean` 時就會消失所以要在自己補上。
+
+</br>
+
+tensorflow-native
+
+```txt
+build --override_repository=rules_jvm_external=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_jvm_external-4.3
+build --override_repository=rules_foreign_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_foreign_cc
+build --override_repository=envoy_api=/media/yocto/usblab/iot-yocto/local-bazel-repos/envoy_api
+build --override_repository=rules_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_cc
+build --override_repository=rules_java=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_java
+```
+
+---
+
+</br>
+
+tensorflow
+
+```txt
+build --override_repository=rules_jvm_external=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_jvm_external
+build --override_repository=rules_foreign_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_foreign_cc
+build --override_repository=envoy_api=/media/yocto/usblab/iot-yocto/local-bazel-repos/envoy_api
+build --override_repository=rules_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_cc
+build --override_repository=rules_java=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_java
+```
+
+---
+
+</br>
+
+keras
+
+```txt
+build --override_repository=rules_python=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_python
+build --override_repository=rules_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_cc_keras
+build --override_repository=rules_java=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_java
+build --override_repository=rules_proto=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_proto
+```
+
+---
+
+</br>
+
+keras-native
+
+```txt
+build --override_repository=rules_proto=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_proto
+build --override_repository=rules_cc=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_cc_keras
+build --override_repository=rules_python=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_python
+build --override_repository=rules_java=/media/yocto/usblab/iot-yocto/local-bazel-repos/rules_java
+```
+
+---
+
+</br>
+
+Step 4. Bitbake recipes
+
+可以先針對對應的 recipes bitbake，或是直接 `bitbake tensorflow`
+
+</br>

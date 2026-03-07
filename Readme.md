@@ -270,3 +270,5 @@ bitbake #後續更新
 ### [USB 開發相關](USB/Readme.md) 
 
 ### [NPU](NPU/Readme.md)
+
+### [LCM Genio 720 開發 repos](https://github.com/YBJin0902/Genio_720_Development/tree/master/meta-lcm)
